@@ -39,7 +39,7 @@ var mediaObjects = {};
  */
 var Media = function(src, successCallback, errorCallback, statusCallback, type) {
     if(!type){
-        type = "music";
+        type = Media.streamType;
     }
     argscheck.checkArgs('sFFF', 'Media', arguments);
     this.id = utils.createUUID();
@@ -75,17 +75,14 @@ Media.get = function(id) {
 };
 Media.streamType = "music";
 Media.setStreamType = function(type){
-    
+   Media.streamType = type;  
 };
 
 /**
  * Start or resume playing audio file.
  */
 Media.prototype.play = function(options) {
-    if(!options){
-        options = {};
-    }
-    options.streamType = Media.stremType;
+   
     exec(null, null, "Media", "startPlayingAudio", [this.id, this.src, options]);
 };
 
