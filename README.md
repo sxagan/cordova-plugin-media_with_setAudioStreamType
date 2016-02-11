@@ -19,7 +19,7 @@
 
 # cordova-plugin-media-with-setAudioStreamType
 
-Fork of mediaplugin with adding ability to change media play type: Ring, Music, Notification
+Fork of mediaplugin with adding ability to change media play type: Ring, Music, Notification, system
 
 
 This plugin provides the ability to record and play back audio files on a device.
@@ -48,26 +48,14 @@ Although in the global scope, it is not available until after the `deviceready` 
 ## Supported Platforms
 
 - Android
-- BlackBerry 10
-- iOS
-- Windows Phone 7 and 8
-- Tizen
-- Windows 8
-- Windows
 - Browser
 
-## Windows Phone Quirks
-
-- Only one media file can be played back at a time.
-
-- There are strict restrictions on how your application interacts with other media. See the [Microsoft documentation for details][url].
-
-[url]: http://msdn.microsoft.com/en-us/library/windowsphone/develop/hh184838(v=vs.92).aspx
 
 ## Media
 
-    var media = new Media(src, mediaSuccess, [mediaError], [mediaStatus]);
-
+    var media = new Media(src, mediaSuccess, [mediaErrorCB], [mediaStatusCB], streamType);
+    //or
+    Media.streamType ="music";
 ### Parameters
 
 - __src__: A URI containing the audio content. _(DOMString)_
@@ -80,9 +68,30 @@ Although in the global scope, it is not available until after the `deviceready` 
 
 __NOTE__: `cdvfile` path is supported as `src` parameter:
 ```javascript
-var my_media = new Media('cdvfile://localhost/temporary/recording.mp3', ...);
-```
+// Avialable stream types:
+//notification
+//alarm	(The audio stream for alarms)
+//dtmf	(The audio stream for DTMF Tones)
+//music	(The audio stream for music playback
+//notification (The audio stream for notifications)
+//ring	(The audio stream for the phone ring)
+//system	(The audio stream for system sounds)
+//voice_call
 
+//OPTION 1:  You should call setStreamType before create an media object
+Media.setStreamType ="music";
+var my_media = new Media('cdvfile://localhost/temporary/recording.mp3', ...);
+
+//OPTION 2: You can set streamType by type paramert of constructor 
+
+var my_media = new Media('cdvfile://localhost/temporary/recording.mp3', ..., "music");
+
+// OPTION 3: You can set StreamType by calling  mediaObject.setAudioStreamType(type) methon BEFORE call play() method;
+var my_media = new Media('cdvfile://localhost/temporary/recording.mp3', ...);
+ my_media.setAudioStreamType("system");
+ my_media.play();
+```
+ 
 ### Constants
 
 The following constants are reported as the only parameter to the
@@ -97,7 +106,7 @@ The following constants are reported as the only parameter to the
 ### Methods
 
 - `media.getCurrentPosition`: Returns the current position within an audio file.
-
+- `media.setAudioStreamType`: Set stream type of audioHandler, shoud be called, before played;
 - `media.getDuration`: Returns the duration of an audio file.
 
 - `media.play`: Start or resume playing an audio file.
@@ -123,6 +132,10 @@ The following constants are reported as the only parameter to the
 
 - __duration__: The duration of the media, in seconds.
 
+##media.setAudioStreamType
+Set up the AudioManager.STREAM_TYPE 
+of android audio player/ Should Be userd before call play();
+
 
 ## media.getCurrentPosition
 
@@ -139,8 +152,8 @@ Returns the current position within an audio file.  Also updates the `Media` obj
 ### Quick Example
 
     // Audio player
-    //
-    var my_media = new Media(src, onSuccess, onError);
+    // init Audio player with 'System' volume 
+    var my_media = new Media(src, onSuccess, onError, onStatus, "system");
 
     // Update media position every second
     var mediaTimer = setInterval(function () {
@@ -209,6 +222,7 @@ Pauses playing an audio file.
         );
 
         // Play audio
+        my_media.setAudioStreamType("ring");
         my_media.play();
 
         // Pause after 10 seconds
@@ -499,9 +513,7 @@ Stops recording an audio file.
     }
 
 
-### Tizen Quirks
 
-- Not supported on Tizen devices.
 
 ## MediaError
 
