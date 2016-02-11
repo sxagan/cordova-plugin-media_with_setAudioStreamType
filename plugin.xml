@@ -20,11 +20,11 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
 xmlns:android="http://schemas.android.com/apk/res/android"
-id="cordova-plugin-media"
-    version="2.2.1-dev">
+id="cordova-plugin-media-extended"
+    version="2.2.1">
 
     <name>Media</name>
-    <description>Cordova Media Plugin</description>
+    <description>Cordova Media Plugin Extended</description>
     <license>Apache 2.0</license>
     <keywords>cordova,media</keywords>
     <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-media.git</repo>
