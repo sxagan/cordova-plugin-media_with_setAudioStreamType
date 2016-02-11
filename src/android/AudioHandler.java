@@ -174,9 +174,9 @@ public class AudioHandler extends CordovaPlugin {
             String muted = args.getString(2);
             AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 			if(muted == "on"){
-				audioManager.setMicrophoneMute(true);
-			}else{
 				audioManager.setMicrophoneMute(false);
+			}else{
+				audioManager.setMicrophoneMute(true);
 			};
 			
             return true;
