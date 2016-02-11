@@ -41,7 +41,7 @@ This plugin provides the ability to record and play back audio files on a device
 *voice_call
 ## Example 
 
-    var media = new Media(src, mediaSuccess, [mediaErrorCB], [mediaStatusCB], streamType); 
+    var media = new Media(src, mediaSuccess, [mediaErrorCB], [mediaStatusCB], streamType);  
     //or
     Media.streamType ="music";
 	
