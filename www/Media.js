@@ -68,13 +68,28 @@ Media.MEDIA_MSG = ["None", "Starting", "Running", "Paused", "Stopped"];
 Media.get = function(id) {
     return mediaObjects[id];
 };
+Media.streamType = "music";
+Media.setStreamType = function(type){
+    
+};
 
 /**
  * Start or resume playing audio file.
  */
 Media.prototype.play = function(options) {
+    if(!options){
+        options = {};
+    }
+    options.streamType = Media.stremType;
     exec(null, null, "Media", "startPlayingAudio", [this.id, this.src, options]);
 };
+
+/*** 
+  set Type of plaing music 
+ **/
+Media.prototype.setAudioStreamType = function(type){
+    exec(null, null, "Media", "setAudioStreamType", [this.id, this.src, options]);
+} ;
 
 /**
  * Stop playing audio file.
