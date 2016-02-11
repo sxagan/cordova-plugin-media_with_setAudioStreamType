@@ -85,7 +85,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     private String tempFile = null;         // Temporary recording file name
 
     private MediaPlayer player = null;      // Audio player object
-    private String mediaStreamType = "";   // Media Stream type 
+    private int streamType = AudioManager.STREAM_MUSIC;   // Media Stream type 
     private boolean prepareOnly = true;     // playback after file prepare flag
     private int seekOnPrepared = 0;     // seek to this location once media is prepared
 
@@ -112,7 +112,25 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     }
       /*** set media stream type */
       public void setStreamType(String type){
-             this.player.
+             if(type == "music"){
+                    this.streamType = AudioManager.STREAM_MUSIC;
+             }else if(type == "alarm"){
+                    this.streamType = AudioManager.STREAM_ALARM;
+             }else if(type == "dtmf"){
+                    this.streamType = AudioManager.STREAM_DTMF;
+             }else if(type == "notification"){
+                    this.streamType = AudioManager.STREAM_NOTIFICATION;
+             }else if(type == "ring"){
+                    this.streamType = AudioManager.STREAM_RING;
+             }else if(type == "system"){
+                    this.streamType = AudioManager.STREAM_SYSTEM;
+             }
+             else if(type == "voice_call"){
+                    this.streamType = AudioManager.STREAM_VOICE_CALL;
+             }
+             
+             this.player.setAudioStreamType(this.streamType);
+             
       }
     /**
      * Destroy player and stop audio playing or recording.
