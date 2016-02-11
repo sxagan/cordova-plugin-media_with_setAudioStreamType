@@ -17,7 +17,9 @@
 #         under the License.
 -->
 
-# cordova-plugin-media
+# cordova-plugin-media-with-setAudioStreamType
+
+Fork of mediaplugin with adding ability to change media play type: Ring, Music, Notification
 
 
 This plugin provides the ability to record and play back audio files on a device.
