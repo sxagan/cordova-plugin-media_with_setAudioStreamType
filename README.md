@@ -31,14 +31,14 @@ This plugin provides the ability to record and play back audio files on a device
 - Browser
 
 ## Stream Types avialable 
-- __notification
-- __alarm	(The audio stream for alarms)
-- __dtmf	(The audio stream for DTMF Tones)
-- __music	(The audio stream for music playback
-- __notification (The audio stream for notifications)
-- __ring	(The audio stream for the phone ring)
-- __system	(The audio stream for system sounds)
-- __voice_call 
+- __notification__
+- __alarm__	(The audio stream for alarms)
+- __dtmf__	(The audio stream for DTMF Tones)
+- __music__	(The audio stream for music playback
+- __notification__ (The audio stream for notifications)
+- __ring__	(The audio stream for the phone ring)
+- __system__	(The audio stream for system sounds)
+- __voice_call__ 
 ## Example 
 
     var media = new Media(src, mediaSuccess, [mediaErrorCB], [mediaStatusCB], streamType);  
