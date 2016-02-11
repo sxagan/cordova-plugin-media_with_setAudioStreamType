@@ -127,6 +127,17 @@ public class AudioHandler extends CordovaPlugin {
             }
             this.startPlayingAudio(args.getString(0), FileHelper.stripFileProtocol(fileUriStr));
         }
+        else if (action.equals("setAudioStreamType")) {
+            String target = args.getString(1);
+            String fileUriStr;
+            try {
+                Uri targetUri = resourceApi.remapUri(Uri.parse(target));
+                fileUriStr = targetUri.toString();
+            } catch (IllegalArgumentException e) {
+                fileUriStr = target;
+            }
+            this.setAudioStreamType(args.getString(0), FileHelper.stripFileProtocol(fileUriStr), args.getString(2));
+        }
         else if (action.equals("seekToAudio")) {
             this.seekToAudio(args.getString(0), args.getInt(1));
         }
@@ -291,7 +302,13 @@ public class AudioHandler extends CordovaPlugin {
      */
     public void startPlayingAudio(String id, String file) {
         AudioPlayer audio = getOrCreatePlayer(id, file);
+        audio
         audio.startPlaying(file);
+    }
+    
+    public void setAudioStreamType(String id, String file, String type){
+           AudioPlayer audio = getOrCreatePlayer(id, file);
+           audio.setStreamType(type);
     }
 
     /**
