@@ -79,11 +79,9 @@ Media.setStreamType = function(type){
 };
 // state of microphone
 Media.mic_muted = false;
+// string off || on
 Media.mute_microphone = function(muted){
-	exec(null, null, "Media", "mute_mic", [this.id, this.src, muted]);
-};
-
-Media.mute_microphone = function(muted){
+	
 	exec(null, null, "Media", "mute_mic", [this.id, this.src, muted]);
 };
 
