@@ -47,7 +47,8 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
 
     // AudioPlayer modes
     public enum MODE { NONE, PLAY, RECORD };
-
+    
+           
     // AudioPlayer states
     public enum STATE { MEDIA_NONE,
                         MEDIA_STARTING,
@@ -58,7 +59,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
                       };
 
     private static final String LOG_TAG = "AudioPlayer";
-
+       
     // AudioPlayer message ids
     private static int MEDIA_STATE = 1;
     private static int MEDIA_DURATION = 2;
@@ -84,9 +85,12 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     private String tempFile = null;         // Temporary recording file name
 
     private MediaPlayer player = null;      // Audio player object
+    private String mediaStreamType = "";   // Media Stream type 
     private boolean prepareOnly = true;     // playback after file prepare flag
     private int seekOnPrepared = 0;     // seek to this location once media is prepared
 
+
+   
     /**
      * Constructor.
      *
@@ -106,7 +110,10 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
         }
 
     }
-
+      /*** set media stream type */
+      public void setStreamType(String type){
+             this.player.
+      }
     /**
      * Destroy player and stop audio playing or recording.
      */
@@ -526,7 +533,15 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
         }
         return false;
     }
-
+    
+    private int getStreamType(){
+           if(!this.streamType){
+                  this.streamType = AudioManager.STREAM_MUSIC;
+           }
+           
+           return this.streamType;
+    };
+    
     /**
      * load audio file
      * @throws IOException
@@ -535,9 +550,9 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
      * @throws IllegalArgumentException
      */
     private void loadAudioFile(String file) throws IllegalArgumentException, SecurityException, IllegalStateException, IOException {
+        
         if (this.isStreaming(file)) {
-            this.player.setDataSource(file);
-            this.player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            this.player.setAudioStreamType(this.getStreamType());
             //if it's a streaming file, play mode is implied
             this.setMode(MODE.PLAY);
             this.setState(STATE.MEDIA_STARTING);
