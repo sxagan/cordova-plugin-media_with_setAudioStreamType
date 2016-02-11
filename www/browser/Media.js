@@ -102,6 +102,25 @@ var Media = function(src, successCallback, errorCallback, statusCallback, typeSt
 Media.setStreamType = function(type){
 	Media.streamType = type;
 };
+// state of microphone
+Media.mic_muted = false;
+
+Media.mute_microphone = function(muted){
+	//exec(null, null, "Media", "mute_mic", [this.id, this.src, muted]);
+};
+
+/*** togle mute of some audio stream ***/
+Media.mute_stream = function(streamToToggleMute){
+	//exec(null, null, "Media", "mute_stream", [this.id, this.src, streamToToggleMute]);
+};
+
+/*** togle Speakers On or OFF (state:bool ) */
+Media.toggle_speaker = function(state){
+	var s = "on";
+	s = state? "on":"off";
+	//exec(null, null, "Media", "toggle_speaker", [this.id, this.src, s]);
+};
+
 
 // Media messages
 Media.MEDIA_STATE = 1;
