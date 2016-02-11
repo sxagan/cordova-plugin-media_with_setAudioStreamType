@@ -42,12 +42,13 @@ var Media = function(src, successCallback, errorCallback, statusCallback) {
     this.id = utils.createUUID();
     mediaObjects[this.id] = this;
     this.src = src;
+    this.mediaStreamType = "music";
     this.successCallback = successCallback;
     this.errorCallback = errorCallback;
     this.statusCallback = statusCallback;
     this._duration = -1;
     this._position = -1;
-    exec(null, this.errorCallback, "Media", "create", [this.id, this.src]);
+    exec(null, this.errorCallback, "Media", "create", [this.id, this.src, this.mediaStreamType]);
 };
 
 // Media messages
