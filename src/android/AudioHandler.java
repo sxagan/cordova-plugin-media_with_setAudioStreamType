@@ -39,7 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-
+import android.media.AudioManager;
 /**
  * This class called by CordovaActivity to play and record audio.
  * The file can be local or over a network using http.
@@ -169,6 +169,45 @@ public class AudioHandler extends CordovaPlugin {
             
             AudioPlayer a = getOrCreatePlayer(id, src);
             a.setStreamType(type);
+        }
+		else if (action.equals("mute_mic")) {
+            String muted = args.getString(2);
+            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+			if(muted == "on"){
+				audioManager.setMicrophoneMute(true);
+			}else{
+				audioManager.setMicrophoneMute(false);
+			};
+			
+            return true;
+        }
+		else if (action.equals("mute_stream")) {
+            String muted = args.getString(2);
+			int muted_stream = AudioManager.STREAM_MUSIC;
+			if(muted == "music"){
+				muted_stream = AudioManager.STREAM_MUSIC;
+			}else if(muted == "system"){
+				muted_stream = AudioManager.STREAM_SYSTEM;
+			}else if(muted == "alarm"){
+				muted_stream = AudioManager.STREAM_ALARM;
+			}else if(muted == "ring"){
+				muted_stream = AudioManager.STREAM_RING;
+			}
+            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+			audioManager.adjustStreamVolume(mute_stream,
+                AudioManager.ADJUST_TOGGLE_MUTE, AudioManager.FLAG_SHOW_UI);
+            return true;
+        }
+		else if (action.equals("toggle_speaker")) {
+			AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+            String muted = args.getString(2);
+			if(muted == "on"){
+				audioManager.setSpeakerphoneOn(true);
+			}else{
+				audioManager.setSpeakerphoneOn(false);
+			}
+           
+            return true;
         }
         else if (action.equals("release")) {
             boolean b = this.release(args.getString(0));
