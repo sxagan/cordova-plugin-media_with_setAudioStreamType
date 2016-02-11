@@ -553,7 +553,7 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     }
     
     private int getStreamType(){
-           if(!this.streamType){
+           if( this.streamType == null){
                   this.streamType = AudioManager.STREAM_MUSIC;
            }
            
