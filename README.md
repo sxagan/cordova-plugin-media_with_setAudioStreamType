@@ -31,14 +31,14 @@ This plugin provides the ability to record and play back audio files on a device
 - Browser
 
 ## Stream Types avialable 
-notification
-alarm	(The audio stream for alarms)
-dtmf	(The audio stream for DTMF Tones)
-music	(The audio stream for music playback
-notification (The audio stream for notifications)
-ring	(The audio stream for the phone ring)
-system	(The audio stream for system sounds)
-voice_call
+*notification
+*alarm	(The audio stream for alarms)
+*dtmf	(The audio stream for DTMF Tones)
+*music	(The audio stream for music playback
+*notification (The audio stream for notifications)
+*ring	(The audio stream for the phone ring)
+*system	(The audio stream for system sounds)
+*voice_call
 ## Example 
 
     var media = new Media(src, mediaSuccess, [mediaErrorCB], [mediaStatusCB], streamType);
@@ -54,6 +54,7 @@ voice_call
 - __mediaError__: (Optional) The callback that executes if an error occurs. _(Function)_
 
 - __mediaStatus__: (Optional) The callback that executes to indicate status changes. _(Function)_
+- __streamType__: (Optional) StreamType setting. _(String)_
 
 __NOTE__: `cdvfile` path is supported as `src` parameter:
 ```javascript
