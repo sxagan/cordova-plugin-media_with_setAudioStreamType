@@ -78,8 +78,9 @@ function createNode (media) {
  * @param statusCallback        The callback to be called when media status has changed.
  *                                  statusCallback(int statusCode) - OPTIONAL
  */
-var Media = function(src, successCallback, errorCallback, statusCallback) {
+var Media = function(src, successCallback, errorCallback, statusCallback, typeStream) {
     argscheck.checkArgs('SFFF', 'Media', arguments);
+	
     this.id = utils.createUUID();
     mediaObjects[this.id] = this;
     this.src = src;
@@ -96,6 +97,10 @@ var Media = function(src, successCallback, errorCallback, statusCallback) {
     } catch (err) {
         Media.onStatus(this.id, Media.MEDIA_ERROR, { code: MediaError.MEDIA_ERR_ABORTED });
     }
+};
+
+Media.setStreamType = function(type){
+	Media.streamType = type;
 };
 
 // Media messages
