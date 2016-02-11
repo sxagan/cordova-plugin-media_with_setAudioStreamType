@@ -165,7 +165,10 @@ public class AudioHandler extends CordovaPlugin {
         else if (action.equals("create")) {
             String id = args.getString(0);
             String src = FileHelper.stripFileProtocol(args.getString(1));
-            getOrCreatePlayer(id, src);
+            String type = args.getString(2);
+            
+            AudioPlayer a = getOrCreatePlayer(id, src);
+            a.setStreamType(type);
         }
         else if (action.equals("release")) {
             boolean b = this.release(args.getString(0));
@@ -302,7 +305,7 @@ public class AudioHandler extends CordovaPlugin {
      */
     public void startPlayingAudio(String id, String file) {
         AudioPlayer audio = getOrCreatePlayer(id, file);
-        audio
+        
         audio.startPlaying(file);
     }
     
