@@ -39,7 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import android.media.AudioManager;
+
 /**
  * This class called by CordovaActivity to play and record audio.
  * The file can be local or over a network using http.
@@ -172,18 +172,20 @@ public class AudioHandler extends CordovaPlugin {
         }
 		else if (action.equals("mute_mic")) {
             String muted = args.getString(2);
-            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+		
+            AudioManager audiMgr = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
 			if(muted == "on"){
-				audioManager.setMicrophoneMute(false);
+				audiMgr.setMicrophoneMute(false);
 			}else{
-				audioManager.setMicrophoneMute(true);
+				audiMgr.setMicrophoneMute(true);
 			};
 			
             return true;
         }
 		else if (action.equals("mute_stream")) {
+			AudioManager audiMgr = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
             String muted = args.getString(2);
-			int muted_stream = AudioManager.STREAM_MUSIC;
+			int muted_stream  = 0;
 			if(muted == "music"){
 				muted_stream = AudioManager.STREAM_MUSIC;
 			}else if(muted == "system"){
@@ -193,18 +195,18 @@ public class AudioHandler extends CordovaPlugin {
 			}else if(muted == "ring"){
 				muted_stream = AudioManager.STREAM_RING;
 			}
-            AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-			audioManager.adjustStreamVolume(mute_stream,
+            
+			audiMgr.adjustStreamVolume(mute_stream,
                 AudioManager.ADJUST_TOGGLE_MUTE, AudioManager.FLAG_SHOW_UI);
             return true;
         }
 		else if (action.equals("toggle_speaker")) {
-			AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+			AudioManager audiMgr = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
             String muted = args.getString(2);
 			if(muted == "on"){
-				audioManager.setSpeakerphoneOn(true);
+				audiMgr.setSpeakerphoneOn(true);
 			}else{
-				audioManager.setSpeakerphoneOn(false);
+				audiMgr.setSpeakerphoneOn(false);
 			}
            
             return true;
