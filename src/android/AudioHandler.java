@@ -185,19 +185,31 @@ public class AudioHandler extends CordovaPlugin {
 		else if (action.equals("mute_stream")) {
 			AudioManager audiMgr = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
             String muted = args.getString(2);
-			int muted_stream  = 0;
 			if(muted == "music"){
-				muted_stream = AudioManager.STREAM_MUSIC;
+				audiMgr.setStreamMute(AudioManager.STREAM_MUSIC, true);
 			}else if(muted == "system"){
-				muted_stream = AudioManager.STREAM_SYSTEM;
+				audiMgr.setStreamMute(AudioManager.STREAM_SYSTEM, true);
 			}else if(muted == "alarm"){
-				muted_stream = AudioManager.STREAM_ALARM;
+				audiMgr.setStreamMute(AudioManager.STREAM_ALARM, true);
 			}else if(muted == "ring"){
-				muted_stream = AudioManager.STREAM_RING;
+				audiMgr.setStreamMute(AudioManager.STREAM_RING, true);
 			}
-            
-			audiMgr.adjustStreamVolume(mute_stream,
-                AudioManager.ADJUST_TOGGLE_MUTE, AudioManager.FLAG_SHOW_UI);
+           
+            return true;
+        }
+		else if (action.equals("unmute_stream")) {
+			AudioManager audiMgr = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
+            String muted = args.getString(2);
+			if(muted == "music"){
+				audiMgr.setStreamMute(AudioManager.STREAM_MUSIC, false);
+			}else if(muted == "system"){
+				audiMgr.setStreamMute(AudioManager.STREAM_SYSTEM, false);
+			}else if(muted == "alarm"){
+				audiMgr.setStreamMute(AudioManager.STREAM_ALARM, false);
+			}else if(muted == "ring"){
+				audiMgr.setStreamMute(AudioManager.STREAM_RING, false);
+			}
+           
             return true;
         }
 		else if (action.equals("toggle_speaker")) {
