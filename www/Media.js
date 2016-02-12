@@ -69,6 +69,8 @@ Media.MEDIA_PAUSED = 3;
 Media.MEDIA_STOPPED = 4;
 Media.MEDIA_MSG = ["None", "Starting", "Running", "Paused", "Stopped"];
 
+
+
 // "static" function to return existing objs.
 Media.get = function(id) {
     return mediaObjects[id];
@@ -85,9 +87,17 @@ Media.mute_microphone = function(muted){
 	exec(null, null, "Media", "mute_mic", [this.id, this.src, muted]);
 };
 
+Media.stream_muted = false;
 /*** togle mute of some audio stream ***/
 Media.mute_stream = function(streamToToggleMute){
-	exec(null, null, "Media", "mute_stream", [this.id, this.src, streamToToggleMute]);
+	if(Media.stream_muted == true){
+		exec(null, null, "Media", "unmute_stream", [this.id, this.src, streamToToggleMute]);
+		Media.stream_muted == false;
+	}else{
+		exec(null, null, "Media", "mute_stream", [this.id, this.src, streamToToggleMute]);
+		Media.stream_muted == true
+	}
+	
 };
 
 /*** togle Speakers On or OFF (state:bool ) */
