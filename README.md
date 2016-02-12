@@ -30,6 +30,15 @@ This plugin provides the ability to record and play back audio files on a device
 - Android
 - Browser
 
+#Additional static methods available on Android: 
+  
+- Media.mute_microphone("on"); //mic not muted 
+- Media.mute_microphone("off"); //mic  muted 
+- Media.mute_stream(streamType); // toggle mute of current stream type (example: Media.mute_stream("ring");// sound off;  Media.mute_stream("ring");// sound on 
+- Media.mute_stream("music"); // music stream muted
+- Media.mute_stream("music"); // music stream UN-muted
+- Media.mute_stream("ring"); // ringtone volume = 0;
+- Media.toggle_speaker(speakerStatus); // true will tun speaker on, false will turn it off; 
 ## Stream Types avialable 
 - __notification__
 - __alarm__	(The audio stream for alarms)
@@ -40,9 +49,10 @@ This plugin provides the ability to record and play back audio files on a device
 - __system__	(The audio stream for system sounds)
 - __voice_call__ 
 ## Example 
-
-    var media = new Media(src, mediaSuccess, [mediaErrorCB], [mediaStatusCB], streamType);  
-    //or
+    
+    var incomingCallSound = new Media(src, mediaSuccess, [mediaErrorCB], [mediaStatusCB], streamType);  
+    //or use static method before object created
+	
     Media.streamType ="music";
 	
 ### Parameters
@@ -69,7 +79,7 @@ __NOTE__: `cdvfile` path is supported as `src` parameter:
 //voice_call
 
 //OPTION 1:  You should call setStreamType before create an media object
-Media.setStreamType ="music";
+Media.setStreamType = "music";
 var my_media = new Media('cdvfile://localhost/temporary/recording.mp3', ...);
 
 //OPTION 2: You can set streamType by type paramert of constructor 
@@ -83,7 +93,7 @@ var my_media = new Media('cdvfile://localhost/temporary/recording.mp3', ...);
 ```
 
 ###install
-PhoneGap build or Cordova cli:  <plugin name="cordova-plugin-media-extended" source="npm" version="2.2.3"></plugin> (add to config.xml)
+PhoneGap build or Cordova cli:  <plugin name="cordova-plugin-media-extended" source="npm" version="2.2.7"></plugin> (add to config.xml)
 
 
 ## all others features one by one forked from cordova-plugin-media 2.2.1
