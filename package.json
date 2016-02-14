@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-media-extended",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "Cordova plugin Media, exdended to change setMediaStreamType constant on Android. Can play sound as System sound, as Ring, as Music etc.",
   "cordova": {
     "id": "cordova-plugin-media-extended",

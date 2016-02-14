@@ -57,6 +57,7 @@ public class AudioHandler extends CordovaPlugin {
     HashMap<String, AudioPlayer> players;	// Audio player object
     ArrayList<AudioPlayer> pausedForPhone;     // Audio players that were paused when phone call came in
     private int origVolumeStream = -1;
+	public int streamType  = AudioManager.STREAM_MUSIC;
     private CallbackContext messageChannel;
 
 
@@ -127,16 +128,9 @@ public class AudioHandler extends CordovaPlugin {
             }
             this.startPlayingAudio(args.getString(0), FileHelper.stripFileProtocol(fileUriStr));
         }
-        else if (action.equals("setAudioStreamType")) {
-            String target = args.getString(1);
-            String fileUriStr;
-            try {
-                Uri targetUri = resourceApi.remapUri(Uri.parse(target));
-                fileUriStr = targetUri.toString();
-            } catch (IllegalArgumentException e) {
-                fileUriStr = target;
-            }
-            this.setAudioStreamType(args.getString(0), FileHelper.stripFileProtocol(fileUriStr), args.getString(2));
+        else if (action.equals("setStreamType")) {
+           String sType = args.getString(0);
+		   this.setAudioStreamType(sType);
         }
         else if (action.equals("seekToAudio")) {
             this.seekToAudio(args.getString(0), args.getInt(1));
@@ -166,20 +160,18 @@ public class AudioHandler extends CordovaPlugin {
             String id = args.getString(0);
             String src = FileHelper.stripFileProtocol(args.getString(1));
             String type = args.getString(2);
-            
+            this.setAudioStreamType(type);
             AudioPlayer a = getOrCreatePlayer(id, src);
-            a.setStreamType(type);
+            a.setStreamType(this.streamType);
         }
 		else if (action.equals("mute_mic")) {
-            String muted = args.getString(2);
-		
             AudioManager audiMgr = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
-			if(muted == "on"){
-				audiMgr.setMicrophoneMute(false);
-			}else{
-				audiMgr.setMicrophoneMute(true);
-			};
-			
+			audiMgr.setMicrophoneMute(true);
+            return true;
+        }
+		else if (action.equals("unmute_mic")) {
+            AudioManager audiMgr = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
+			audiMgr.setMicrophoneMute(false);
             return true;
         }
 		else if (action.equals("mute_stream")) {
@@ -212,17 +204,7 @@ public class AudioHandler extends CordovaPlugin {
            
             return true;
         }
-		else if (action.equals("toggle_speaker")) {
-			AudioManager audiMgr = (AudioManager) this.cordova.getActivity().getSystemService(Context.AUDIO_SERVICE);
-            String muted = args.getString(2);
-			if(muted == "on"){
-				audiMgr.setSpeakerphoneOn(true);
-			}else{
-				audiMgr.setSpeakerphoneOn(false);
-			}
-           
-            return true;
-        }
+		
         else if (action.equals("release")) {
             boolean b = this.release(args.getString(0));
             callbackContext.sendPluginResult(new PluginResult(status, b));
@@ -358,13 +340,26 @@ public class AudioHandler extends CordovaPlugin {
      */
     public void startPlayingAudio(String id, String file) {
         AudioPlayer audio = getOrCreatePlayer(id, file);
-        
         audio.startPlaying(file);
     }
     
-    public void setAudioStreamType(String id, String file, String type){
-           AudioPlayer audio = getOrCreatePlayer(id, file);
-           audio.setStreamType(type);
+    public void setAudioStreamType(String type){
+           if(type == "music"){
+                    this.streamType = AudioManager.STREAM_MUSIC;
+             }else if(type == "alarm"){
+                    this.streamType = AudioManager.STREAM_ALARM;
+             }else if(type == "dtmf"){
+                    this.streamType = AudioManager.STREAM_DTMF;
+             }else if(type == "notification"){
+                    this.streamType = AudioManager.STREAM_NOTIFICATION;
+             }else if(type == "ring"){
+                    this.streamType = AudioManager.STREAM_RING;
+             }else if(type == "system"){
+                    this.streamType = AudioManager.STREAM_SYSTEM;
+             }
+             else if(type == "voice_call"){
+                    this.streamType = AudioManager.STREAM_VOICE_CALL;
+             }
     }
 
     /**
@@ -480,7 +475,7 @@ public class AudioHandler extends CordovaPlugin {
 
     private void onFirstPlayerCreated() {
         origVolumeStream = cordova.getActivity().getVolumeControlStream();
-        cordova.getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        cordova.getActivity().setVolumeControlStream(this.streamType);
     }
 
     private void onLastPlayerReleased() {

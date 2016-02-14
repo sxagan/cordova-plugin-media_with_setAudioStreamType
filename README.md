@@ -32,14 +32,13 @@ This plugin provides the ability to record and play back audio files on a device
 
 #Additional static methods available on Android: 
   
-- Media.mute_microphone("on"); //mic not muted 
-- Media.mute_microphone("off"); //mic  muted 
-- Media.mute_stream(streamType); // toggle mute of current stream type (example: Media.mute_stream("ring");// sound off;  Media.mute_stream("ring");// sound on 
-- Media.mute_stream("music"); // music stream muted
-- Media.mute_stream("music"); // music stream UN-muted
-- Media.mute_stream("ring"); // ringtone volume = 0;
-- Media.toggle_speaker(speakerStatus); // true will tun speaker on, false will turn it off; 
-## Stream Types avialable 
+- Media.mute_microphone(true); //mic muted 
+- Media.mute_microphone(false); //mic  not muted 
+- Media.mute_stream(streamType); 
+- Media.mute_stream("music"); // music stream muted // new same call unmute stream
+
+## Stream Types avialable
+ 
 - __notification__
 - __alarm__	(The audio stream for alarms)
 - __dtmf__	(The audio stream for DTMF Tones)
@@ -48,12 +47,14 @@ This plugin provides the ability to record and play back audio files on a device
 - __ring__	(The audio stream for the phone ring)
 - __system__	(The audio stream for system sounds)
 - __voice_call__ 
+
+
 ## Example 
     
     var incomingCallSound = new Media(src, mediaSuccess, [mediaErrorCB], [mediaStatusCB], streamType);  
     //or use static method before object created
+    Media.setStreamType ="music";
 	
-    Media.streamType ="music";
 	
 ### Parameters
 
@@ -66,10 +67,8 @@ This plugin provides the ability to record and play back audio files on a device
 - __mediaStatus__: (Optional) The callback that executes to indicate status changes. _(Function)_
 - __streamType__: (Optional) StreamType setting. _(String)_
 
-__NOTE__: `cdvfile` path is supported as `src` parameter:
 ```javascript
 // Avialable stream types:
-//notification
 //alarm	(The audio stream for alarms)
 //dtmf	(The audio stream for DTMF Tones)
 //music	(The audio stream for music playback
@@ -79,17 +78,11 @@ __NOTE__: `cdvfile` path is supported as `src` parameter:
 //voice_call
 
 //OPTION 1:  You should call setStreamType before create an media object
-Media.setStreamType = "music";
+Media.setStreamType("music");
 var my_media = new Media('cdvfile://localhost/temporary/recording.mp3', ...);
-
 //OPTION 2: You can set streamType by type paramert of constructor 
+var incomingCallSound = new Media(src, mediaSuccess, [mediaErrorCB], [mediaStatusCB], streamType);  
 
-var my_media = new Media('cdvfile://localhost/temporary/recording.mp3', ..., "music");
-
-// OPTION 3: You can set StreamType by calling  mediaObject.setAudioStreamType(type) methon BEFORE call play() method;
-var my_media = new Media('cdvfile://localhost/temporary/recording.mp3', ...);
- my_media.setAudioStreamType("system");
- my_media.play();
 ```
 
 ###install

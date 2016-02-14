@@ -79,33 +79,29 @@ Media.streamType = "music";
 Media.setStreamType = function(type){
    Media.streamType = type;  
 };
-// state of microphone
-Media.mic_muted = false;
+
 // string off || on
 Media.mute_microphone = function(muted){
-	
-	exec(null, null, "Media", "mute_mic", [this.id, this.src, muted]);
-};
-
-Media.stream_muted = false;
-/*** togle mute of some audio stream ***/
-Media.mute_stream = function(streamToToggleMute){
-	if(Media.stream_muted == true){
-		exec(null, null, "Media", "unmute_stream", [this.id, this.src, streamToToggleMute]);
-		Media.stream_muted == false;
+	if(muted){
+		exec(null, null, "Media", "mute_mic", [this.id, this.src, muted]);
 	}else{
-		exec(null, null, "Media", "mute_stream", [this.id, this.src, streamToToggleMute]);
-		Media.stream_muted == true
+		exec(null, null, "Media", "unmute_mic", [this.id, this.src, muted]);
 	}
-	
 };
 
-/*** togle Speakers On or OFF (state:bool ) */
-Media.toggle_speaker = function(state){
-	var s = "on";
-	s = state? "on":"off";
-	exec(null, null, "Media", "toggle_speaker", [this.id, this.src, s]);
+Media.muted_streams = {};
+/*** togle mute of some audio stream ***/
+Media.mute_stream = function(streamName){
+	if(Media.muted_streams[streamName] == true){
+		exec(null, null, "Media", "unmute_stream", [this.id, this.src, streamName]);
+		Media.muted_streams[streamName] = false;
+	}else{
+		exec(null, null, "Media", "mute_stream", [this.id, this.src, streamName]);
+		Media.muted_streams[streamName] = true;
+	}
 };
+
+
 
 /**
  * Start or resume playing audio file.

@@ -102,35 +102,18 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
         this.id = id;
         this.audioFile = file;
         this.recorder = new MediaRecorder();
-
+        this.streamType = handler.streamType; 
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             this.tempFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmprecording.3gp";
         } else {
-            this.tempFile = "/data/data/" + handler.cordova.getActivity().getPackageName() + "/cache/tmprecording.3gp";
+            this.tempFile = "/data/data/" + handler.cordova.getActivity()cordova.getActivity().getPackageName() + "/cache/tmprecording.3gp";
         }
 
     }
       /*** set media stream type */
-      public void setStreamType(String type){
-             if(type == "music"){
-                    this.streamType = AudioManager.STREAM_MUSIC;
-             }else if(type == "alarm"){
-                    this.streamType = AudioManager.STREAM_ALARM;
-             }else if(type == "dtmf"){
-                    this.streamType = AudioManager.STREAM_DTMF;
-             }else if(type == "notification"){
-                    this.streamType = AudioManager.STREAM_NOTIFICATION;
-             }else if(type == "ring"){
-                    this.streamType = AudioManager.STREAM_RING;
-             }else if(type == "system"){
-                    this.streamType = AudioManager.STREAM_SYSTEM;
-             }
-             else if(type == "voice_call"){
-                    this.streamType = AudioManager.STREAM_VOICE_CALL;
-             }
-             
+      public void setStreamType(int type){
+		     this.streamType = type;
              this.player.setAudioStreamType(this.streamType);
-             
       }
     /**
      * Destroy player and stop audio playing or recording.
